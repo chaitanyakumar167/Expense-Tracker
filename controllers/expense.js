@@ -4,14 +4,13 @@ exports.postAddExpense = async (req, res, next) => {
   try {
     const { amount, description, category } = req.body;
 
-    const expense = await Expense.create({
+    const expense = await req.user.createExpense({
       amount: amount,
       description: description,
       category: category,
     });
     if (expense) {
       res.json(expense.id);
-      res.status(200).json({ message: "add sucessful" });
     }
   } catch (err) {
     res.status(500).json({ message: err });
@@ -34,9 +33,8 @@ exports.deleteExpense = async (req, res, next) => {
 
 exports.getAllExpenses = async (req, res, next) => {
   try {
-    const expenses = await Expense.findAll();
+    const expenses = await req.user.getExpenses();
     res.json(expenses);
-    res.status(200).json({ message: "sucessful" });
   } catch (err) {
     res.status(404).json({ message: err });
   }

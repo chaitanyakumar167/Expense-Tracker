@@ -9,12 +9,18 @@ const signUpRouter = require("./routes/sign-up");
 const logInRouter = require("./routes/login");
 const expenseRouter = require("./routes/expense");
 
+const User = require("./models/sign-up");
+const Expenses = require("./models/expense");
+
 app.use(cors());
 app.use(bodyParser.json({ extended: false }));
 
 app.use("/user", signUpRouter);
 app.use("/user", logInRouter);
 app.use("/user", expenseRouter);
+
+User.hasMany(Expenses);
+Expenses.belongsTo(User);
 
 Sequelize.sync()
   .then(() => {

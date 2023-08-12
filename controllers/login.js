@@ -1,5 +1,10 @@
 const SignUp = require("../models/sign-up");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+function generateAccessToken(id) {
+  return jwt.sign({ userId: id }, "1234567890");
+}
 
 exports.postLogIn = async (req, res, next) => {
   const email = req.body.email;
@@ -12,7 +17,10 @@ exports.postLogIn = async (req, res, next) => {
           throw new Error("something went wrong");
         }
         if (result === true) {
-          return res.status(202).json({ message: "User login sucessful" });
+          return res.status(202).json({
+            message: "User login sucessful",
+            token: generateAccessToken(users[0].id),
+          });
         } else {
           return res.status(401).json({ message: "User not authorized" });
         }
