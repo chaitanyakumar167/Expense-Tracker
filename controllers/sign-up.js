@@ -1,5 +1,5 @@
 const SignUp = require("../models/sign-up");
-let flag;
+// let flag;
 
 exports.postSignUp = async (req, res, next) => {
   try {
@@ -24,9 +24,7 @@ exports.postSignUp = async (req, res, next) => {
         number: number,
         password: password,
       });
-      if (response) {
-        res.json(response.id);
-      }
+      res.status(201).send({ message: "account created successfully" });
     } else {
       res.status(409).send({ error: "User already exists" });
     }
