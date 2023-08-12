@@ -1,34 +1,28 @@
 const SignUp = require("../models/sign-up");
-// let flag;
+const bcrypt = require("bcrypt");
 
 exports.postSignUp = async (req, res, next) => {
   try {
-    const name = req.body.name;
-    const email = req.body.email;
-    const number = req.body.number;
-    const password = req.body.password;
+    const { name, email, number, password } = req.body;
 
-    const users = await SignUp.findAll();
-    let flag = true;
-    for (let i = 0; i < users.length; i++) {
-      if (users[i].email === email) {
-        flag = false;
-        break;
-      }
+    const users = await SignUp.findAll({ where: { email } });
+
+    if (users.length > 0) {
+      return res.status(409).json({ message: "User already exists" });
     }
-
-    if (flag) {
-      const response = await SignUp.create({
+    const saltRounds = 10;
+    bcrypt.hash(password, saltRounds, async (err, hash) => {
+      if (!err) {
+      }
+      await SignUp.create({
         name: name,
         email: email,
         number: number,
-        password: password,
+        password: hash,
       });
-      res.status(201).send({ message: "account created successfully" });
-    } else {
-      res.status(409).send({ error: "User already exists" });
-    }
+      res.status(201).json({ message: "account created successfully" });
+    });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: error });
   }
 };
