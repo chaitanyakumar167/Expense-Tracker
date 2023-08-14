@@ -39,3 +39,7 @@ exports.getAllExpenses = async (req, res, next) => {
     res.status(404).json({ message: err });
   }
 };
+
+exports.isPremiumUser = (req, res) => {
+  return res.status(202).json(req.user.isPremium);
+};
