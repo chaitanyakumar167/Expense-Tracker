@@ -8,18 +8,13 @@ exports.purchasePremium = async (req, res) => {
       key_secret: "BxmelgSmAiHMEpob4vkZCW0O",
     });
     const amount = 2500;
-    rzp.orders.create({ amount, currency: "INR" }, (err, order) => {
+    rzp.orders.create({ amount, currency: "INR" }, async (err, order) => {
       if (err) {
         throw new Error(JSON.stringify(err));
       }
-      req.user
-        .createOrder({ orderId: order.id, status: "PENDING" })
-        .then(() => {
-          return res.status(201).json({ order, key_id: rzp.key_id });
-        })
-        .catch((err) => {
-          throw new Error(err);
-        });
+      await req.user.createOrder({ orderId: order.id, status: "PENDING" });
+
+      return res.status(201).json({ order, key_id: rzp.key_id });
     });
   } catch (error) {
     res.status(403).json({ message: "something went wrong", error: error });
