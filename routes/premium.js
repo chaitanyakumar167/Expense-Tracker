@@ -9,4 +9,16 @@ router.get(
   premiumController.showLeaderBoard
 );
 
+router.get(
+  "/download",
+  userAuthentication.authenticate,
+  premiumController.downloadExpenses
+);
+
+router.get(
+  "/alldownloadhistory",
+  userAuthentication.authenticate,
+  premiumController.getAllDownloadHistory
+);
+
 module.exports = router;

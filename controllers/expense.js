@@ -1,13 +1,14 @@
 const Expense = require("../models/expense");
 const sequelize = require("../util/database");
 const Users = require("../models/sign-up");
+const UserServices=require('../services/userservices')
 
 exports.postAddExpense = async (req, res, next) => {
   const t = await sequelize.transaction();
   try {
     const { amount, description, category } = req.body;
 
-    const expense = await Expense.create(
+    const expense = await req.user.createExpense(
       {
         amount: amount,
         description: description,
@@ -54,7 +55,7 @@ exports.deleteExpense = async (req, res, next) => {
 
 exports.getAllExpenses = async (req, res, next) => {
   try {
-    const expenses = await req.user.getExpenses();
+    const expenses = await UserServices.getExpenses(req);
     res.json(expenses);
   } catch (err) {
     res.status(404).json({ message: err });
