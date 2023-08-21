@@ -17,13 +17,7 @@ router.delete(
   expenseController.deleteExpense
 );
 
-router.get(
-  "/all-expenses",
-  userAuthentication.authenticate,
-  expenseController.getAllExpenses
-);
-
-router.get(
+router.post(
   `/expenses`,
   userAuthentication.authenticate,
   expenseController.getExpenses

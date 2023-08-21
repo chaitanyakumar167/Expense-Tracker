@@ -65,7 +65,8 @@ exports.getAllExpenses = async (req, res, next) => {
 exports.getExpenses = async (req, res) => {
   try {
     const page = +req.query.page;
-    const ITEMS_PER_PAGE = 10;
+    console.log(req.body);
+    const ITEMS_PER_PAGE = +req.body.numberOfRows;
     const totalExpenses = await req.user.countExpenses();
     const Expenses = await req.user.getExpenses({
       offset: (page - 1) * ITEMS_PER_PAGE,
@@ -81,7 +82,7 @@ exports.getExpenses = async (req, res) => {
       lastPage: Math.ceil(totalExpenses / ITEMS_PER_PAGE),
     });
   } catch (error) {
-    res.status(404).json({ message: err });
+    res.status(404).json({ message: error });
   }
 };
 
