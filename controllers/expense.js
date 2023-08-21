@@ -1,7 +1,7 @@
 const Expense = require("../models/expense");
 const sequelize = require("../util/database");
 const Users = require("../models/sign-up");
-const UserServices=require('../services/userservices')
+const UserServices = require("../services/userservices");
 
 exports.postAddExpense = async (req, res, next) => {
   const t = await sequelize.transaction();
@@ -58,6 +58,29 @@ exports.getAllExpenses = async (req, res, next) => {
     const expenses = await UserServices.getExpenses(req);
     res.json(expenses);
   } catch (err) {
+    res.status(404).json({ message: err });
+  }
+};
+
+exports.getExpenses = async (req, res) => {
+  try {
+    const page = +req.query.page;
+    const ITEMS_PER_PAGE = 10;
+    const totalExpenses = await req.user.countExpenses();
+    const Expenses = await req.user.getExpenses({
+      offset: (page - 1) * ITEMS_PER_PAGE,
+      limit: ITEMS_PER_PAGE,
+    });
+    res.status(200).json({
+      Expenses: Expenses,
+      currentPage: page,
+      hasNextPage: page * ITEMS_PER_PAGE < totalExpenses,
+      hasPreviousPage: page > 1,
+      nextPage: page + 1,
+      previousPage: page - 1,
+      lastPage: Math.ceil(totalExpenses / ITEMS_PER_PAGE),
+    });
+  } catch (error) {
     res.status(404).json({ message: err });
   }
 };

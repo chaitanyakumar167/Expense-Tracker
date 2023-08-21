@@ -24,6 +24,12 @@ router.get(
 );
 
 router.get(
+  `/expenses`,
+  userAuthentication.authenticate,
+  expenseController.getExpenses
+);
+
+router.get(
   "/is-premium-user",
   userAuthentication.authenticate,
   expenseController.isPremiumUser
