@@ -1,5 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const fs = require("fs");
+const path = require("path");
+require("dotenv").config();
 
 const cors = require("cors");
 
@@ -18,7 +21,17 @@ const Order = require("./models/orders");
 const ForgotPasswordRequests = require("./models/forgotpassword");
 const FileURL = require("./models/fileurl");
 
+const helmet = require("helmet");
+const morgan = require("morgan");
+
 app.use(cors());
+app.use(helmet());
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, "access.log"),
+  { flags: "a" }
+);
+app.use(morgan("combined", { stream: accessLogStream }));
+
 app.use(bodyParser.json({ extended: false }));
 
 app.use("/user", signUpRouter);
@@ -42,7 +55,6 @@ FileURL.belongsTo(User);
 
 Sequelize.sync()
   .then(() => {
-    // app.listen(4000);
+    app.listen(process.env.PORT || 4000);
   })
   .catch((err) => console.log(err));
-app.listen(4000);

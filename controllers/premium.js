@@ -4,6 +4,7 @@ const sequelize = require("../util/database");
 const S3Services = require("../services/s3services");
 const UserServices = require("../services/userservices");
 
+
 exports.showLeaderBoard = async (req, res) => {
   try {
     const leaderBoardOfUsers = await Users.findAll({

@@ -65,7 +65,6 @@ exports.getAllExpenses = async (req, res, next) => {
 exports.getExpenses = async (req, res) => {
   try {
     const page = +req.query.page;
-    console.log(req.body);
     const ITEMS_PER_PAGE = +req.body.numberOfRows;
     const totalExpenses = await req.user.countExpenses();
     const Expenses = await req.user.getExpenses({

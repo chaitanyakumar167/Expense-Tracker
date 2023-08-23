@@ -1,0 +1,8 @@
+::1 - - [23/Aug/2023:04:52:05 +0000] "POST /user/login HTTP/1.1" 202 165 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"
+::1 - - [23/Aug/2023:04:52:05 +0000] "GET /user/is-premium-user HTTP/1.1" 202 4 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"
+::1 - - [23/Aug/2023:04:52:05 +0000] "POST /user/expenses?page=1 HTTP/1.1" 200 1684 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"
+::1 - - [23/Aug/2023:04:52:09 +0000] "POST /user/expenses?page=2 HTTP/1.1" 200 275 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"
+::1 - - [23/Aug/2023:04:52:11 +0000] "POST /user/expenses?page=1 HTTP/1.1" 200 1684 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"
+::1 - - [23/Aug/2023:05:00:12 +0000] "POST /user/expenses?page=1 HTTP/1.1" 200 899 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"
+::1 - - [23/Aug/2023:05:01:18 +0000] "GET /user/is-premium-user HTTP/1.1" 202 4 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"
+::1 - - [23/Aug/2023:05:01:18 +0000] "POST /user/expenses?page=1 HTTP/1.1" 200 899 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"
