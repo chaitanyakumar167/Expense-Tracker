@@ -21,18 +21,19 @@ const Order = require("./models/orders");
 const ForgotPasswordRequests = require("./models/forgotpassword");
 const FileURL = require("./models/fileurl");
 
-const helmet = require("helmet");
-const morgan = require("morgan");
+//const helmet = require("helmet");
+//const morgan = require("morgan");
 
 app.use(cors());
-app.use(helmet());
-const accessLogStream = fs.createWriteStream(
-  path.join(__dirname, "access.log"),
-  { flags: "a" }
-);
-app.use(morgan("combined", { stream: accessLogStream }));
+// app.use(helmet());
+// const accessLogStream = fs.createWriteStream(
+//   path.join(__dirname, "access.log"),
+//   { flags: "a" }
+// );
+// app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use(bodyParser.json({ extended: false }));
+
 
 app.use("/user", signUpRouter);
 app.use("/user", logInRouter);
@@ -40,6 +41,10 @@ app.use("/user", expenseRouter);
 app.use("/purchase", purchaseRouter);
 app.use("/premium", premiumRouter);
 app.use("/password", forgotPasswordRouter);
+
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, `public/${req.url}`));
+});
 
 User.hasMany(Expenses);
 Expenses.belongsTo(User);
