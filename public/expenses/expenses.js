@@ -39,7 +39,7 @@ async function addItem(e) {
   };
 
   await axios
-    .post("http://16.170.254.209:4000/user/add-expense", obj, {
+    .post("http://16.171.14.106:4000/user/add-expense", obj, {
       headers: { Authorization: token },
     })
     .then((res) => (obj.id = res.data))
@@ -81,7 +81,7 @@ function show(obj) {
     const id = obj.id;
     itemList.removeChild(li);
     await axios
-      .delete(`http://16.170.254.209:4000/user/delete-expense/${id}`, {
+      .delete(`http://16.171.14.106:4000/user/delete-expense/${id}`, {
         headers: { Authorization: token },
       })
       .catch((err) => console.log(err));
@@ -95,7 +95,7 @@ async function showAllExpenses() {
   const numberOfRows = localStorage.getItem("rows") || 10;
   const page = 1;
   const response = await axios.post(
-    `http://16.170.254.209:4000/user/expenses?page=${page}`,
+    `http://16.171.14.106:4000/user/expenses?page=${page}`,
     { numberOfRows },
     { headers: { Authorization: token } }
   );
@@ -108,7 +108,7 @@ window.addEventListener("DOMContentLoaded", showAllExpenses);
 btnBuyPremium.onclick = async function (e) {
   const token = localStorage.getItem("token");
   const response = await axios.get(
-    "http://16.170.254.209:4000/purchase/premiummembership",
+    "http://16.171.14.106:4000/purchase/premiummembership",
     { headers: { Authorization: token } }
   );
   let options = {
@@ -116,7 +116,7 @@ btnBuyPremium.onclick = async function (e) {
     order_id: response.data.order.id,
     handler: async function (response) {
       await axios.post(
-        "http://16.170.254.209:4000/purchase/updatetransactionstatus",
+        "http://16.171.14.106:4000/purchase/updatetransactionstatus",
         {
           order_id: options.order_id,
           payment_id: response.razorpay_payment_id,
@@ -139,7 +139,7 @@ btnBuyPremium.onclick = async function (e) {
 
 const ispremium = async (e) => {
   const response = await axios.get(
-    "http://16.170.254.209:4000/user/is-premium-user",
+    "http://16.171.14.106:4000/user/is-premium-user",
     {
       headers: { Authorization: token },
     }
@@ -159,7 +159,7 @@ ispremium();
 btnLeaderBoard.onclick = async () => {
   leaderBoardTitle.textContent = "Leader Board";
   const response = await axios.get(
-    "http://16.170.254.209:4000/premium/showleaderboard",
+    "http://16.171.14.106:4000/premium/showleaderboard",
     { headers: { Authorization: token } }
   );
   const data = response.data;
@@ -194,7 +194,7 @@ btnDownload.onclick = async () => {
   try {
     if (localStorage.getItem("pro")) {
       const response = await axios.get(
-        "http://16.170.254.209:4000/premium/download",
+        "http://16.171.14.106:4000/premium/download",
         {
           headers: { Authorization: token },
         }
@@ -219,7 +219,7 @@ function showError(err) {
 
 btnDownloadHistory.onclick = async () => {
   const response = await axios.get(
-    "http://16.170.254.209:4000/premium/alldownloadhistory",
+    "http://16.171.14.106:4000/premium/alldownloadhistory",
     { headers: { Authorization: token } }
   );
   DownloadHistoryList.innerHTML = "";
@@ -281,7 +281,7 @@ async function showExpenses(page) {
   try {
     const numberOfRows = localStorage.getItem("rows") || 10;
     const response = await axios.post(
-      `http://16.170.254.209:4000/user/expenses?page=${page}`,
+      `http://16.171.14.106:4000/user/expenses?page=${page}`,
       { numberOfRows },
       { headers: { Authorization: token } }
     );
@@ -307,7 +307,7 @@ btnrows.onclick = async () => {
     localStorage.setItem("rows", rows);
     const numberOfRows = localStorage.getItem("rows");
     const response = await axios.post(
-      `http://16.170.254.209:4000/user/expenses?page=${page}`,
+      `http://16.171.14.106:4000/user/expenses?page=${page}`,
       { numberOfRows },
       { headers: { Authorization: token } }
     );

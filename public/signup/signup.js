@@ -20,7 +20,7 @@ form.addEventListener("submit", async function (e) {
 
     try {
       const res = await axios.post(
-        "http://16.170.254.209:4000/user/sign-up",
+        "http://16.171.14.106:4000/user/sign-up",
         signUpDetails
       );
 
