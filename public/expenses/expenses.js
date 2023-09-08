@@ -24,6 +24,7 @@ const DownloadHistoryList = document.getElementById("download_history_list");
 const logout = document.getElementById("logout");
 
 const token = localStorage.getItem("token");
+const URL = "http://16.171.209.167:4000";
 
 // Form submit event
 form.addEventListener("submit", addItem);
@@ -39,7 +40,7 @@ async function addItem(e) {
   };
 
   await axios
-    .post("http://16.170.246.157:4000/user/add-expense", obj, {
+    .post(`${URL}/user/add-expense`, obj, {
       headers: { Authorization: token },
     })
     .then((res) => (obj.id = res.data))
@@ -81,7 +82,7 @@ function show(obj) {
     const id = obj.id;
     itemList.removeChild(li);
     await axios
-      .delete(`http://16.170.246.157:4000/user/delete-expense/${id}`, {
+      .delete(`${URL}/user/delete-expense/${id}`, {
         headers: { Authorization: token },
       })
       .catch((err) => console.log(err));
@@ -95,7 +96,7 @@ async function showAllExpenses() {
   const numberOfRows = localStorage.getItem("rows") || 10;
   const page = 1;
   const response = await axios.post(
-    `http://16.170.246.157:4000/user/expenses?page=${page}`,
+    `${URL}/user/expenses?page=${page}`,
     { numberOfRows },
     { headers: { Authorization: token } }
   );
@@ -107,16 +108,15 @@ window.addEventListener("DOMContentLoaded", showAllExpenses);
 
 btnBuyPremium.onclick = async function (e) {
   const token = localStorage.getItem("token");
-  const response = await axios.get(
-    "http://16.170.246.157:4000/purchase/premiummembership",
-    { headers: { Authorization: token } }
-  );
+  const response = await axios.get(`${URL}/purchase/premiummembership`, {
+    headers: { Authorization: token },
+  });
   let options = {
     key: response.data.key_id,
     order_id: response.data.order.id,
     handler: async function (response) {
       await axios.post(
-        "http://16.170.246.157:4000/purchase/updatetransactionstatus",
+        `${URL}/purchase/updatetransactionstatus`,
         {
           order_id: options.order_id,
           payment_id: response.razorpay_payment_id,
@@ -138,12 +138,9 @@ btnBuyPremium.onclick = async function (e) {
 };
 
 const ispremium = async (e) => {
-  const response = await axios.get(
-    "http://16.170.246.157:4000/user/is-premium-user",
-    {
-      headers: { Authorization: token },
-    }
-  );
+  const response = await axios.get(`${URL}/user/is-premium-user`, {
+    headers: { Authorization: token },
+  });
   const premiumuser = response.data;
   localStorage.setItem("pro", premiumuser);
   if (response.data) {
@@ -158,10 +155,9 @@ ispremium();
 
 btnLeaderBoard.onclick = async () => {
   leaderBoardTitle.textContent = "Leader Board";
-  const response = await axios.get(
-    "http://16.170.246.157:4000/premium/showleaderboard",
-    { headers: { Authorization: token } }
-  );
+  const response = await axios.get(`${URL}/premium/showleaderboard`, {
+    headers: { Authorization: token },
+  });
   const data = response.data;
   leaderBoardList.innerHTML = "";
   for (let i = 0; i < data.length; i++) {
@@ -193,12 +189,9 @@ if (localStorage.getItem("pro") !== null) {
 btnDownload.onclick = async () => {
   try {
     if (localStorage.getItem("pro")) {
-      const response = await axios.get(
-        "http://16.170.246.157:4000/premium/download",
-        {
-          headers: { Authorization: token },
-        }
-      );
+      const response = await axios.get(`${URL}/premium/download`, {
+        headers: { Authorization: token },
+      });
       if (response.status === 200) {
         let a = document.createElement("a");
         a.href = response.data.fileURL;
@@ -218,10 +211,9 @@ function showError(err) {
 }
 
 btnDownloadHistory.onclick = async () => {
-  const response = await axios.get(
-    "http://16.170.246.157:4000/premium/alldownloadhistory",
-    { headers: { Authorization: token } }
-  );
+  const response = await axios.get(`${URL}/premium/alldownloadhistory`, {
+    headers: { Authorization: token },
+  });
   DownloadHistoryList.innerHTML = "";
   const arr = response.data.downloadHistory;
   for (let i = 0; i < arr.length; i++) {
@@ -281,7 +273,7 @@ async function showExpenses(page) {
   try {
     const numberOfRows = localStorage.getItem("rows") || 10;
     const response = await axios.post(
-      `http://16.170.246.157:4000/user/expenses?page=${page}`,
+      `${URL}/user/expenses?page=${page}`,
       { numberOfRows },
       { headers: { Authorization: token } }
     );
@@ -307,7 +299,7 @@ btnrows.onclick = async () => {
     localStorage.setItem("rows", rows);
     const numberOfRows = localStorage.getItem("rows");
     const response = await axios.post(
-      `http://16.170.246.157:4000/user/expenses?page=${page}`,
+      `${URL}/user/expenses?page=${page}`,
       { numberOfRows },
       { headers: { Authorization: token } }
     );

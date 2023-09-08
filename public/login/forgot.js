@@ -1,6 +1,8 @@
 const form = document.getElementById("form");
 const submitbtn = document.getElementById("submit");
 const email = document.getElementById("email");
+const URL='http://16.171.209.167:4000'
+
 
 form.addEventListener("submit", async function (e) {
   if (!form.checkValidity()) {
@@ -14,7 +16,7 @@ form.addEventListener("submit", async function (e) {
 
     try {
       const res = await axios.post(
-        "http://16.170.246.157:4000/password/forgotpassword",
+        `${URL}/password/forgotpassword`,
         obj
       );
     } catch (error) {
